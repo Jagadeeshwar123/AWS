@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation Template to Create an EC2 Instance
+
+
+Resources:
+  WebAppInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-09040d770ffe2224f # ImageID valid only in ap-south-1 region
+      InstanceType: t2.micro
+      KeyName: Roboshop # <-- Change to use your key-pair name
+      SecurityGroupIds:
+        - Ref WebAppSecurityGroup
+  WebAppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: Join
+      GroupDescription: 'Allow HTTP/HTTPS and SSH inbound and outbound traffic'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      
